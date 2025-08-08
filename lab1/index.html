@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Aurora Coffee — уютная кофейня с обжаркой и событиями для гостей" />
+    <title>Aurora Coffee — Домашняя страница</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header__inner">
+        <a class="logo" href="#about" aria-label="На главную">Aurora Coffee</a>
+        <nav class="nav" aria-label="Основная навигация">
+          <ul class="nav__list">
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#menu">Меню</a></li>
+            <li><a href="#events">События</a></li>
+            <li><a href="#contacts">Контакты</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="about" class="section hero">
+        <div class="container hero__grid">
+          <div class="hero__content">
+            <h1>Городская кофейня с характером</h1>
+            <p>
+              Aurora — это место, где мы обжариваем зерно малыми партиями и подбираем
+              профиль под каждый напиток. Нам важны чистый вкус, уютная атмосфера и внимание к деталям.
+            </p>
+            <p>
+              Загляните за первой чашкой дня или приходите на вечерние события: дегустации, живую музыку и встречи с обжарщиками.
+            </p>
+          </div>
+          <figure class="hero__media">
+            <img src="./assets/images/image.png" alt="Иллюстрация кофейни и чашки кофе" />
+            <figcaption>Наше настроение — мягкий свет, винил и свежая обжарка</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="menu" class="section projects">
+        <div class="container">
+          <h2>Популярные позиции</h2>
+          <div class="cards">
+            <article class="card">
+              <h3>Фирменная обжарка Aurora</h3>
+              <p>
+                Сбалансированный купаж с нотами молочного шоколада, карамели и спелой вишни. Идеален для эспрессо и фильтра.
+              </p>
+              <a class="button" href="#menu">Смотреть меню</a>
+            </article>
+
+            <article class="card">
+              <h3>Сезонные напитки</h3>
+              <p>
+                Осенний раф с пряной тыквой, цитрусовый фильтр‑тоник и авторский какао на овсяном молоке.
+              </p>
+              <a class="button" href="#menu">Смотреть меню</a>
+            </article>
+
+            <article class="card">
+              <h3>Десерты без сахара</h3>
+              <p>
+                Чизкейк на кокосовом сахаре, ореховое пралине и брауни на тёмном шоколаде без рафинада.
+              </p>
+              <a class="button" href="#menu">Смотреть меню</a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="events" class="section">
+        <div class="container">
+          <h2>Меню напитков</h2>
+          <div class="table-wrap">
+            <table class="table" aria-describedby="menu-desc">
+              <caption id="menu-desc">Базовые позиции бара Aurora Coffee</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Напиток</th>
+                  <th scope="col">Объём</th>
+                  <th scope="col">Цена</th>
+                  <th scope="col">Статус</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Эспрессо</th>
+                  <td>35 мл</td>
+                  <td>180 ₽</td>
+                  <td><span class="status status--done">в наличии</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">Капучино</th>
+                  <td>250 мл</td>
+                  <td>260 ₽</td>
+                  <td><span class="status status--done">в наличии</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">Фильтр‑кофе</th>
+                  <td>300 мл</td>
+                  <td>240 ₽</td>
+                  <td><span class="status status--progress">свежая партия</span></td>
+                </tr>
+                <tr>
+                  <th scope="row">Матча латте</th>
+                  <td>300 мл</td>
+                  <td>320 ₽</td>
+                  <td><span class="status status--todo">готовим к вечеру</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contacts" class="footer">
+      <div class="container footer__inner">
+        <div class="footer__col">
+          <strong>Контакты</strong>
+          <p>Email: <a href="mailto:contact@example.com">contact@example.com</a></p>
+          <p>Телефон: <a href="tel:+70000000000">+7 (000) 000‑00‑00</a></p>
+          <p>Instagram: <a href="#" aria-disabled="true">@example</a></p>
+        </div>
+        <div class="footer__col footer__copy">
+          <p>© 2025 Aurora Coffee</p>
+          <p>Все права защищены.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html> 
