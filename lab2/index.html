@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Форма обратной связи — Lab 2</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Форма обратной связи</h1>
+      <p class="lead">Поделитесь мнением: мы читаем каждое обращение.</p>
+
+      <form action="https://httpbin.org/post" method="post" enctype="multipart/form-data" class="form">
+        <div class="form-group">
+          <label for="fullName">Полное имя</label>
+          <input id="fullName" name="fullName" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="text" required />
+        </div>
+
+        <fieldset class="form-group">
+          <legend>Как вы о нас узнали?</legend>
+          <label class="inline"><input type="radio" name="source" value="search" required /> Поиск</label>
+          <label class="inline"><input type="radio" name="source" value="social" /> Соцсети</label>
+          <label class="inline"><input type="radio" name="source" value="friends" /> Друзья</label>
+          <label class="inline"><input type="radio" name="source" value="other" /> Другое</label>
+        </fieldset>
+
+        <div class="form-group">
+          <label for="appealType">Тип обращения</label>
+          <select id="appealType" name="appealType" required>
+            <option value="complaint">Жалоба</option>
+            <option value="suggestion">Предложение</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Текст сообщения</label>
+          <textarea id="message" name="message" rows="6" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="attachments">Вложения</label>
+          <input id="attachments" name="attachments" type="file" multiple />
+        </div>
+
+        <div class="form-group inline">
+          <label class="inline"><input type="checkbox" id="agree" name="agree" value="yes" required /> Я согласен на обработку персональных данных</label>
+        </div>
+
+        <div class="actions">
+          <button type="submit">Отправить</button>
+          <button type="reset" class="secondary">Очистить</button>
+          <a href="./auth.html" class="link">Страница входа</a>
+        </div>
+      </form>
+    </main>
+  </body>
+</html> 
