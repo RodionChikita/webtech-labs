@@ -1,0 +1,19 @@
+
+* { box-sizing: border-box; }
+
+@page { margin: 12mm; }
+
+html, body { background: #ffffff !important; color: #000000 !important; }
+
+.header, .nav, .sidebar, .footer, .hero__media { display: none !important; }
+
+.container { max-width: none; padding: 0; }
+.layout { display: block; }
+.content { display: block; }
+
+.card { border: 1px solid #000; padding: 10px; margin: 10px 0; }
+.card h2 { margin: 0 0 6px; font-size: 14pt; }
+.card p, .row__info, .row__time { font-size: 11pt; }
+.rows, .row { display: block; }
+
+a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; } 
