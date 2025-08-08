@@ -1,0 +1,95 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+bun-debug.log*
+
+# Diagnostic reports
+report.*.json
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directories
+coverage
+.nyc_output
+coverage-final.json
+
+# Dependency directories
+node_modules/
+bower_components/
+
+# Build outputs
+build
+build-*
+dist
+out
+
+# Caches
+.cache
+.parcel-cache
+.eslintcache
+.stylelintcache
+.vite
+vite-cache
+.next
+.turbo
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Testing artifacts
+junit.xml
+test-results/
+playwright-report/
+playwright/.cache
+cypress/videos
+cypress/screenshots
+cypress/downloads
+
+# Storybook
+storybook-static
+out-storybook
+.storybook-out
+
+# Env files (keep examples)
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.local.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors and IDEs
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+*.iml
+
+# Archives and temporary
+*.tgz
+*.tar
+*.zip
+.tmp
+.temp
+/tmp
+/temp
+
+# Yarn Berry (keep necessary directories)
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions 
