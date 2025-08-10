@@ -1,11 +1,7 @@
-import js from "@eslint/js";
-import pluginVue from "eslint-plugin-vue";
-import { defineConfig } from "eslint/config";
-
 export default [
   {
     files: ["**/*.js"],
-    ignores: ["node_modules/**", "calc/**"],
+    ignores: ["node_modules/**"],
     languageOptions: {
       ecmaVersion: 2021,
       sourceType: "script",
@@ -15,6 +11,7 @@ export default [
         console: "readonly",
         Node: "readonly",
         Element: "readonly",
+        HTMLButtonElement: "readonly",
       },
     },
     rules: {},

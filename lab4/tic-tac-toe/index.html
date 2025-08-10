@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Крестики‑нолики — Lab 4</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header__inner">
+        <h1>Крестики‑нолики</h1>
+        <nav class="nav">
+          <a class="nav__link" href="../index.html">На главную</a>
+          <a class="nav__link" href="../calc/index.html">Калькулятор</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <div class="controls">
+          <button id="resetBtn" type="button">Сбросить</button>
+        </div>
+        <div id="board" class="board" aria-label="Игровое поле" role="grid" aria-rowcount="3" aria-colcount="3"></div>
+        <p id="status" class="status" aria-live="polite">Ходит X</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer__inner">
+        <p>© 2025 WebTech Labs — Lab 4</p>
+      </div>
+    </footer>
+
+    <script src="./main.js"></script>
+  </body>
+</html> 

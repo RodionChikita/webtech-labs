@@ -19,7 +19,7 @@ function priority(operation) {
 // Checking if the string "str" contains a number.
 
 function isNumeric(str) {
-    return /^\d+(.\d+){0,1}$/.test(str);
+    return /^\d+(\.\d+){0,1}$/.test(str);
 }
 
 // Проверка, является ли строка str цифрой.
@@ -51,7 +51,7 @@ function isOperation(str) {
 function tokenize(str) {
     let tokens = [];
     let lastNumber = '';
-    for (char of str) {
+    for (const char of str) {
         if (isDigit(char) || char == '.') {
             lastNumber += char;
         } else {
@@ -93,12 +93,12 @@ function tokenize(str) {
 function compile(str) {
     let out = [];
     let stack = [];
-    for (token of tokenize(str)) {
+    for (const token of tokenize(str)) {
         if (isNumeric(token)) {
             out.push(token);
         } else if (isOperation(token)) {
-            while (stack.length > 0 && 
-                   isOperation(stack[stack.length - 1]) && 
+            while (stack.length > 0 &&
+                   isOperation(stack[stack.length - 1]) &&
                    priority(stack[stack.length - 1]) >= priority(token)) {
                 out.push(stack.pop());
             }
@@ -135,7 +135,26 @@ function compile(str) {
 // (https://en.wikipedia.org/wiki/Reverse_Polish_notation).
 
 function evaluate(str) {
-    // your code here
+    // str — строка с выражением в ОПЗ (операнды и операторы через пробел)
+    const tokens = str.split(/\s+/).filter(Boolean);
+    const stack = [];
+    for (const t of tokens) {
+        if (isNumeric(t)) {
+            stack.push(parseFloat(t));
+            continue;
+        }
+        const b = stack.pop();
+        const a = stack.pop();
+        let res = 0;
+        if (t === '+') res = a + b;
+        else if (t === '-') res = a - b;
+        else if (t === '*') res = a * b;
+        else if (t === '/') res = a / b;
+        else throw new Error('invalid token');
+        stack.push(res);
+    }
+    if (stack.length !== 1) throw new Error('invalid rpn');
+    return stack[0];
 }
 
 // Функция clickHandler предназначена для обработки 
@@ -166,7 +185,31 @@ function evaluate(str) {
 // handler for each button separately.
 
 function clickHandler(event) {
-    // your code here
+    const screen = document.querySelector('.screen span');
+    const target = event.target;
+    if (!(target instanceof HTMLButtonElement)) return;
+
+    if (target.classList.contains('digit') ||
+        target.classList.contains('operation') ||
+        target.classList.contains('bracket')) {
+        screen.textContent += target.textContent;
+        return;
+    }
+
+    if (target.classList.contains('clear')) {
+        screen.textContent = '';
+        return;
+    }
+
+    if (target.classList.contains('result')) {
+        try {
+            const rpn = compile(screen.textContent);
+            const value = evaluate(rpn);
+            screen.textContent = String(Math.round(value * 100) / 100);
+        } catch (e) {
+            screen.textContent = 'Ошибка';
+        }
+    }
 }
 
 
@@ -175,5 +218,6 @@ function clickHandler(event) {
 // Set event handlers.
 
 window.onload = function () {
-    // your code here
+    const buttonsWrap = document.querySelector('.buttons');
+    buttonsWrap.addEventListener('click', clickHandler);
 };
