@@ -1,0 +1,4 @@
+body { scroll-behavior: smooth; }
+.hero { background: #1f2937; margin-top: 56px; }
+.hero .btn { --bs-btn-padding-x: 1rem; --bs-btn-padding-y: .6rem; }
+section + section { scroll-margin-top: 72px; } 
