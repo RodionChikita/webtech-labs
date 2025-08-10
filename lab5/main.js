@@ -1,3 +1,7 @@
+let state = {
+    q: '',
+};
+
 function createAuthorElement(record) {
     let user = record.user || { 'name': { 'first': '', 'last': '' } };
     let authorElement = document.createElement('div');
@@ -55,7 +59,7 @@ function setPaginationInfo(info) {
 function createPageBtn(page, classes = []) {
     let btn = document.createElement('button');
     classes.push('btn');
-    for (cls of classes) {
+    for (let cls of classes) {
         btn.classList.add(cls);
     }
     btn.dataset.page = page;
@@ -100,6 +104,9 @@ function downloadData(page = 1) {
     let perPage = document.querySelector('.per-page-btn').value;
     url.searchParams.append('page', page);
     url.searchParams.append('per-page', perPage);
+    if (state.q) {
+        url.searchParams.append('q', state.q);
+    }
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url);
     xhr.responseType = 'json';
@@ -111,7 +118,7 @@ function downloadData(page = 1) {
     xhr.send();
 }
 
-function perPageBtnHandler(event) {
+function perPageBtnHandler() {
     downloadData(1);
 }
 
@@ -122,8 +129,68 @@ function pageBtnHandler(event) {
     }
 }
 
-window.onload = function () {
-    downloadData();
+function searchHandler() {
+    const input = document.querySelector('.search-field');
+    state.q = input.value.trim();
+    clearSuggestions();
+    downloadData(1);
+}
+
+// AUTOCOMPLETE
+let acAbort = null;
+function clearSuggestions() {
+    const box = document.querySelector('.suggestions');
+    box.classList.remove('open');
+    box.innerHTML = '';
+}
+function renderSuggestions(items) {
+    const box = document.querySelector('.suggestions');
+    if (!items || items.length === 0) { clearSuggestions(); return; }
+    box.classList.add('open');
+    const list = document.createElement('div');
+    list.className = 'suggestions-list';
+    items.forEach((text) => {
+        const it = document.createElement('div');
+        it.className = 'suggestion-item';
+        it.setAttribute('role', 'option');
+        it.textContent = text;
+        it.addEventListener('click', () => {
+            document.querySelector('.search-field').value = text;
+            clearSuggestions();
+        });
+        list.appendChild(it);
+    });
+    box.innerHTML = '';
+    box.appendChild(list);
+}
+function debounce(fn, ms) {
+    let t = null;
+    return function (...args) {
+        clearTimeout(t);
+        t = setTimeout(() => fn.apply(this, args), ms);
+    };
+}
+const fetchSuggestions = debounce((q) => {
+    if (acAbort) acAbort.abort();
+    if (!q) { clearSuggestions(); return; }
+    const ctrl = new AbortController();
+    acAbort = ctrl;
+    const url = new URL('http://cat-facts-api.std-900.ist.mospolytech.ru/autocomplete');
+    url.searchParams.append('q', q);
+    fetch(url, { signal: ctrl.signal })
+        .then((r) => r.json())
+        .then((arr) => renderSuggestions(arr))
+        .catch(() => {});
+}, 250);
+
+function bindUI() {
     document.querySelector('.pagination').onclick = pageBtnHandler;
     document.querySelector('.per-page-btn').onchange = perPageBtnHandler;
+    document.querySelector('.search-btn').onclick = searchHandler;
+    document.querySelector('.search-field').addEventListener('input', (e) => fetchSuggestions(e.target.value));
+}
+
+window.onload = function () {
+    downloadData();
+    bindUI();
 };
