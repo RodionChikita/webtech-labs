@@ -1,4 +1,4 @@
-import { getOrders, getOrder, updateOrder, deleteOrder, paginate } from './api.js';
+import { getOrders, getOrder, updateOrder, deleteOrder, paginate, getGuide, getRoutes } from './api.js';
 
 const PER_PAGE_ORDERS = 5;
 let orders = [];
@@ -14,14 +14,22 @@ function showAlert(message, type = 'success') {
   setTimeout(() => el.classList.contains('show') && el.remove(), 5000);
 }
 
-function renderOrders() {
+async function renderOrders() {
   const tbody = document.getElementById('ordersTbody');
   tbody.innerHTML = '';
+  // Получаем названия маршрутов разово на отрисовку (без кэша между экранами)
+  let routesMap = new Map();
+  try {
+    const routes = await getRoutes();
+    routesMap = new Map(routes.map(r => [r.id, r.name]));
+  } catch (_) { routesMap = new Map(); }
+
   const list = paginate(orders, ordersPage, PER_PAGE_ORDERS);
   list.forEach((o, idx) => {
     const tr = document.createElement('tr');
     const seq = (ordersPage - 1) * PER_PAGE_ORDERS + idx + 1;
-    tr.innerHTML = `<td>${seq}</td><td>${o.route_id}</td><td>${o.date} ${o.time?.slice(0,5) || ''}</td><td>${o.price} ₽</td>
+    const routeTitle = routesMap.get(o.route_id) || o.route_id;
+    tr.innerHTML = `<td>${seq}</td><td>${routeTitle}</td><td>${o.date} ${o.time?.slice(0,5) || ''}</td><td>${o.price} ₽</td>
       <td class="text-end">
         <button class="btn btn-sm btn-outline-secondary view" data-id="${o.id}"><i class="bi bi-eye"></i></button>
         <button class="btn btn-sm btn-outline-primary edit" data-id="${o.id}"><i class="bi bi-pencil"></i></button>
@@ -48,17 +56,22 @@ function renderPager() {
 async function loadOrders() {
   try {
     orders = await getOrders();
-    renderOrders();
+    await renderOrders();
   } catch (e) { showAlert('Не удалось загрузить заявки', 'danger'); }
 }
 
 async function openView(id) {
   try {
     const o = await getOrder(id);
+    const guide = await getGuide(o.guide_id);
+    const routes = await getRoutes();
+    const routesMap = new Map(routes.map(r => [r.id, r.name]));
+    const routeTitle = routesMap.get(o.route_id) || o.route_id;
+    const guideName = guide?.name || o.guide_id;
     const c = document.getElementById('viewContent');
     c.innerHTML = `<div class="row g-2">
-      <div class="col-md-6"><strong>Маршрут:</strong> ${o.route_id}</div>
-      <div class="col-md-6"><strong>Гид:</strong> ${o.guide_id}</div>
+      <div class="col-md-6"><strong>Маршрут:</strong> ${routeTitle}</div>
+      <div class="col-md-6"><strong>Гид:</strong> ${guideName}</div>
       <div class="col-md-4"><strong>Дата:</strong> ${o.date}</div>
       <div class="col-md-4"><strong>Время:</strong> ${o.time?.slice(0,5) || ''}</div>
       <div class="col-md-4"><strong>Длительность:</strong> ${o.duration} ч</div>
@@ -114,13 +127,14 @@ async function confirmDelete() {
 }
 
 function bindUI() {
-  document.getElementById('ordersPager').addEventListener('click', (e) => { const p = e.target.getAttribute('data-p'); if (p) { ordersPage=Number(p); renderOrders(); } });
+  document.getElementById('ordersPager').addEventListener('click', async (e) => { const p = e.target.getAttribute('data-p'); if (p) { ordersPage=Number(p); await renderOrders(); } });
   document.getElementById('ordersTbody').addEventListener('click', (e) => {
-    const id = e.target.closest('button')?.getAttribute('data-id');
+    const btn = e.target.closest('button');
+    const id = btn?.getAttribute('data-id');
     if (!id) return;
-    if (e.target.closest('button').classList.contains('view')) openView(id);
-    else if (e.target.closest('button').classList.contains('edit')) openEdit(id);
-    else if (e.target.closest('button').classList.contains('del')) openDelete(id);
+    if (btn.classList.contains('view')) openView(id);
+    else if (btn.classList.contains('edit')) openEdit(id);
+    else if (btn.classList.contains('del')) openDelete(id);
   });
   document.getElementById('editForm').addEventListener('submit', submitEdit);
   document.getElementById('deleteYes').addEventListener('click', confirmDelete);
