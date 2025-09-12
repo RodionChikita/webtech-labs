@@ -1,0 +1,4 @@
+body { scroll-behavior: smooth; }
+main, header, section { scroll-margin-top: 70px; }
+.table td,tr,th{ vertical-align: middle; }
+#alerts { min-height: 0; } 
